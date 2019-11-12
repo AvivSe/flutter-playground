@@ -44,24 +44,30 @@ class _TicTacToeState extends State<TicTacToe> {
     });
   }
 
-  void onNewGamePressed() {
+  void handleStartOver() {
     setState(() {
       init();
+      winingPath = null;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    bool someOneWon = winingPath != null;
+    bool gameOver = turnsCounter == state.columns.length;
+    bool startOver = someOneWon || gameOver;
+
     String actionText = state.getCurrentPlayerName() + ", It's your turn.";
     if (winingPath != null) {
       actionText = state.getCurrentPlayerName() + " is the winner!";
     } else if (turnsCounter == state.columns.length) {
       actionText = "Game Over.";
     }
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text("Tic Tac Toe"),
+        title: Text(ticTacToe),
         backgroundColor: Colors.grey[900],
       ),
       body: Column(
@@ -103,12 +109,12 @@ class _TicTacToeState extends State<TicTacToe> {
             ),
           ),
           RaisedButton(
-            onPressed: onNewGamePressed,
-            color: colors[2 % colors.length],
-            padding: EdgeInsets.all(5.0),
+            onPressed: handleStartOver,
+            color: colors[(startOver ? 1 : 2)%colors.length],
+            padding: EdgeInsets.all(startOver ? 5.0 : 0.0),
             child: Text(
               "Start Over",
-              style: TextStyle(color: Colors.white, fontSize: 50.0, fontFamily: 'YeonSung'),
+              style: TextStyle(color: Colors.white, fontSize: startOver ? 50.0 : 25.0, fontFamily: 'YeonSung'),
             ),
           ),
         ],

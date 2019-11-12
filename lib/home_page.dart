@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:playground/tic_tac_toe.dart';
 import 'package:playground/concentration.dart';
 
+const simonSays = 'Simon Says';
 
 const List<String> games = <String>[
   ticTacToe,
   concentration,
-  ticTacToe,
+  simonSays,
   concentration,
 ];
 
@@ -30,6 +31,8 @@ class _HomePageState extends State<HomePage> {
       case ticTacToe:
         return TicTacToe();
       case concentration:
+        return Concentration();
+      case simonSays:
         return Concentration();
       default:
         return null;
@@ -66,7 +69,10 @@ class _HomePageState extends State<HomePage> {
                     angle: -pi / 4,
                     child: Text(
                       games[i],
-                      style: TextStyle(color: Colors.white, fontSize: 20.0,fontWeight: FontWeight.w900),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w900),
                     ),
                   )),
             ),
