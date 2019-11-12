@@ -1,15 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:playground/tic-tac-toe/tic_tac_tow.dart';
+import 'package:playground/tic_tac_toe.dart';
+import 'package:playground/concentration.dart';
 
-const String ticTacToe = "Tic Tac Toe";
-const String memoryGame = "Memory Game";
+
 const List<String> games = <String>[
   ticTacToe,
-  memoryGame,
+  concentration,
   ticTacToe,
-  memoryGame,
+  concentration,
 ];
 
 const colors = [
@@ -29,8 +29,8 @@ class _HomePageState extends State<HomePage> {
     switch (gameName) {
       case ticTacToe:
         return TicTacToe();
-      case memoryGame:
-        return TicTacToe();
+      case concentration:
+        return Concentration();
       default:
         return null;
     }
@@ -62,9 +62,12 @@ class _HomePageState extends State<HomePage> {
                   shape: RoundedRectangleBorder(),
                   color: colors[i % colors.length],
                   onPressed: () => push(context, games[i]),
-                  child: Text(
-                    games[i],
-                    style: TextStyle(color: Colors.white, fontSize: 20.0),
+                  child: Transform.rotate(
+                    angle: -pi / 4,
+                    child: Text(
+                      games[i],
+                      style: TextStyle(color: Colors.white, fontSize: 20.0,fontWeight: FontWeight.w900),
+                    ),
                   )),
             ),
           ),
