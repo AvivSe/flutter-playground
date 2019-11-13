@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'package:playground/home_page.dart';
+
 const String ticTacToe = "Tic Tac Toe";
 
 class TicTacToe extends StatefulWidget {
@@ -104,17 +105,23 @@ class _TicTacToeState extends State<TicTacToe> {
             padding: EdgeInsets.only(bottom: 15),
             child: Text(
               actionText,
-              style: TextStyle(fontSize: 30.0, color: colors[(state.turn+2)%colors.length], fontFamily: 'YeonSung'),
+              style: TextStyle(
+                  fontSize: 30.0,
+                  color: colors[(state.turn + 2) % colors.length],
+                  fontFamily: 'YeonSung'),
               textAlign: TextAlign.center,
             ),
           ),
           RaisedButton(
             onPressed: handleStartOver,
-            color: colors[(startOver ? 1 : 2)%colors.length],
+            color: startOver ? Colors.lightGreen : colors[2 % colors.length],
             padding: EdgeInsets.all(startOver ? 5.0 : 0.0),
             child: Text(
               "Start Over",
-              style: TextStyle(color: Colors.white, fontSize: startOver ? 50.0 : 25.0, fontFamily: 'YeonSung'),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: startOver ? 50.0 : 25.0,
+                  fontFamily: 'YeonSung'),
             ),
           ),
         ],

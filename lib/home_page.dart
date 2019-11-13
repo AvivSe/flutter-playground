@@ -52,11 +52,7 @@ class _HomePageState extends State<HomePage> {
         Expanded(
           child: GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1.0,
-              // crossAxisSpacing: 500,
-              // mainAxisSpacing: 500.0
-            ),
+                crossAxisCount: 2, childAspectRatio: 1.0),
             controller: new ScrollController(keepScrollOffset: false),
             shrinkWrap: true,
             itemCount: games.length,
@@ -88,7 +84,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.grey[900],
         body: Container(
             child: Transform.translate(
-                offset: Offset(-75, 100),
+                offset: Offset(-110, 150),
                 child:
                     Transform.rotate(angle: pi / 4, child: renderGameMenu()))));
   }
