@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:playground/GameWrapper.dart';
 
 import 'home_page.dart';
 
@@ -14,6 +15,7 @@ const vscode = "vscode";
 
 const String concentration = "Concentration";
 const debug = false;
+
 class Concentration extends StatefulWidget {
   @override
   _ConcentrationState createState() => _ConcentrationState();
@@ -32,6 +34,8 @@ class _ConcentrationState extends State<Concentration> {
   int exposedCard;
   int secondaryExposedCard;
   int time;
+  bool initialInit = true;
+  Map<String, SvgPicture> svgs = HashMap();
 
   var subscription;
 
@@ -57,6 +61,11 @@ class _ConcentrationState extends State<Concentration> {
     secondaryExposedCard = -1;
     resolvedCards = HashSet();
     time = 30;
+
+    cards.forEach((card) => {
+          if (!svgs.containsKey(card))
+            {svgs[card] = SvgPicture.asset("assets/" + card + ".svg")}
+        });
   }
 
   handleStartOver() {
@@ -67,7 +76,10 @@ class _ConcentrationState extends State<Concentration> {
 
   handleCardPress(i) {
     int delayMs = 2000;
-    if (exposedCard != i && secondaryExposedCard != i && secondaryExposedCard == -1 && resolvedCards.length != cards.length / 2) {
+    if (exposedCard != i &&
+        secondaryExposedCard != i &&
+        secondaryExposedCard == -1 &&
+        resolvedCards.length != cards.length / 2) {
       if (subscription != null) {
         subscription.cancel();
       }
@@ -102,7 +114,7 @@ class _ConcentrationState extends State<Concentration> {
     if (resolvedCards.contains(cards[i]) ||
         exposedCard == i ||
         secondaryExposedCard == i) {
-      widget = SvgPicture.asset("assets/" + cards[i] + ".svg");
+      widget = svgs[cards[i]];
     } else {
       widget = RaisedButton(
         padding: const EdgeInsets.all(8.0),
@@ -117,51 +129,54 @@ class _ConcentrationState extends State<Concentration> {
   @override
   Widget build(BuildContext context) {
     bool startOver = resolvedCards.length == cards.length / 2;
-  
+
     int scroe = resolvedCards.length * 100 * 25;
 
-    return Scaffold(
-        backgroundColor: Colors.grey[900],
-        appBar: AppBar(
-          title: Text(concentration),
-          backgroundColor: Colors.grey[900],
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  childAspectRatio: 1.0,
-                  crossAxisSpacing: 5.0,
-                  mainAxisSpacing: 5.0,
-                ),
-                padding: const EdgeInsets.all(5.0),
-                controller: new ScrollController(keepScrollOffset: false),
-                shrinkWrap: true,
-                itemCount: cards.length,
-                itemBuilder: (context, i) => SizedBox(
-                  child: renderCard(i),
-                ),
+    return GameWrapper(
+      gameName: concentration,
+      stage: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 1.0,
+                crossAxisSpacing: 5.0,
+                mainAxisSpacing: 5.0,
+              ),
+              padding: const EdgeInsets.all(5.0),
+              controller: new ScrollController(keepScrollOffset: false),
+              shrinkWrap: true,
+              itemCount: cards.length,
+              itemBuilder: (context, i) => SizedBox(
+                child: renderCard(i),
               ),
             ),
-            Text("Timer: ", textAlign: TextAlign.center ,style: TextStyle(color: Colors.white, fontSize: 30.0, fontFamily: "YeonSung")),
-            Text("Scroe: " + scroe.toString(), textAlign: TextAlign.center ,style: TextStyle(color: Colors.white, fontSize: 30.0, fontFamily: "YeonSung")),
-            RaisedButton(
-              onPressed: handleStartOver,
-              color: startOver ? Colors.lightGreen : colors[2 % colors.length],
-              padding: EdgeInsets.all(startOver ? 5.0 : 0.0),
-              child: Text(
-                "Start Over",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: startOver ? 50.0 : 25.0,
-                    fontFamily: 'YeonSung'),
-              ),
+          ),
+          Text("Timer: ",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white, fontSize: 30.0, fontFamily: "YeonSung")),
+          Text("Scroe: " + scroe.toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white, fontSize: 30.0, fontFamily: "YeonSung")),
+          RaisedButton(
+            onPressed: handleStartOver,
+            color: startOver ? Colors.lightGreen : colors[2 % colors.length],
+            padding: EdgeInsets.all(startOver ? 5.0 : 0.0),
+            child: Text(
+              "Start Over",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: startOver ? 50.0 : 25.0,
+                  fontFamily: 'YeonSung'),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

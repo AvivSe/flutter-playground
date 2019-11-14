@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:playground/simon_says.dart';
 import 'package:playground/tic_tac_toe.dart';
 import 'package:playground/concentration.dart';
 
-const simonSays = 'Simon Says';
+import 'navi.dart';
 
 const List<String> games = <String>[
   ticTacToe,
@@ -33,15 +34,10 @@ class _HomePageState extends State<HomePage> {
       case concentration:
         return Concentration();
       case simonSays:
-        return Concentration();
+        return SimonSays();
       default:
         return null;
     }
-  }
-
-  static push(BuildContext context, String gameName) {
-    return Navigator.push(
-        context, MaterialPageRoute(builder: (context) => renderGame(gameName)));
   }
 
   Column renderGameMenu() {
@@ -60,7 +56,7 @@ class _HomePageState extends State<HomePage> {
               child: RaisedButton(
                   shape: RoundedRectangleBorder(),
                   color: colors[i % colors.length],
-                  onPressed: () => push(context, games[i]),
+                  onPressed: () => Navi.goto(context, renderGame(games[i])),
                   child: Transform.rotate(
                     angle: -pi / 4,
                     child: Text(

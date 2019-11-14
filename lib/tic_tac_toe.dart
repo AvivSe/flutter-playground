@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:playground/GameWrapper.dart';
 import 'dart:math';
 
 import 'package:playground/home_page.dart';
@@ -65,68 +66,63 @@ class _TicTacToeState extends State<TicTacToe> {
       actionText = "Game Over.";
     }
 
-    return Scaffold(
-      backgroundColor: Colors.grey[900],
-      appBar: AppBar(
-        title: Text(ticTacToe),
-        backgroundColor: Colors.grey[900],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: state.size,
-                  childAspectRatio: 1.0,
-                  crossAxisSpacing: 5.0,
-                  mainAxisSpacing: 5.0),
-              padding: const EdgeInsets.all(10.0),
-              itemCount: state.columns.length,
-              itemBuilder: (context, i) => SizedBox(
-                child: RaisedButton(
-                  padding: const EdgeInsets.all(8.0),
-                  onPressed: () => onColumnPressed(i),
-                  child: Text(
-                    state.columns[i].text,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 100.0 * 3 / state.size,
-                        fontFamily: 'YeonSung'),
+    return GameWrapper(
+        gameName: ticTacToe,
+        stage: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: state.size,
+                    childAspectRatio: 1.0,
+                    crossAxisSpacing: 5.0,
+                    mainAxisSpacing: 5.0),
+                padding: const EdgeInsets.all(10.0),
+                itemCount: state.columns.length,
+                itemBuilder: (context, i) => SizedBox(
+                  child: RaisedButton(
+                    padding: const EdgeInsets.all(8.0),
+                    onPressed: () => onColumnPressed(i),
+                    child: Text(
+                      state.columns[i].text,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 100.0 * 3 / state.size,
+                          fontFamily: 'YeonSung'),
+                    ),
+                    color: state.columns[i].backgroundColor,
+                    disabledColor: state.columns[i].backgroundColor,
                   ),
-                  color: state.columns[i].backgroundColor,
-                  disabledColor: state.columns[i].backgroundColor,
                 ),
               ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.only(bottom: 15),
-            child: Text(
-              actionText,
-              style: TextStyle(
-                  fontSize: 30.0,
-                  color: colors[(state.turn + 2) % colors.length],
-                  fontFamily: 'YeonSung'),
-              textAlign: TextAlign.center,
+            Container(
+              padding: EdgeInsets.only(bottom: 15),
+              child: Text(
+                actionText,
+                style: TextStyle(
+                    fontSize: 30.0,
+                    color: colors[(state.turn + 2) % colors.length],
+                    fontFamily: 'YeonSung'),
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-          RaisedButton(
-            onPressed: handleStartOver,
-            color: startOver ? Colors.lightGreen : colors[2 % colors.length],
-            padding: EdgeInsets.all(startOver ? 5.0 : 0.0),
-            child: Text(
-              "Start Over",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: startOver ? 50.0 : 25.0,
-                  fontFamily: 'YeonSung'),
+            RaisedButton(
+              onPressed: handleStartOver,
+              color: startOver ? Colors.lightGreen : colors[2 % colors.length],
+              padding: EdgeInsets.all(startOver ? 5.0 : 0.0),
+              child: Text(
+                "Start Over",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: startOver ? 50.0 : 25.0,
+                    fontFamily: 'YeonSung'),
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ));
   }
 }
 
