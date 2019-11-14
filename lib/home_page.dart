@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:playground/simon_says.dart';
 import 'package:playground/tic_tac_toe.dart';
 import 'package:playground/concentration.dart';
+import 'package:playground/zoomable_widget.dart';
 
 import 'navi.dart';
+
+const createdBy = "created by: avivsegal@gmail.com";
 
 const List<String> games = <String>[
   ticTacToe,
   concentration,
   simonSays,
-  concentration,
+  createdBy,
 ];
 
 const colors = [
@@ -27,17 +30,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static Widget renderGame(String gameName) {
-    switch (gameName) {
-      case ticTacToe:
-        return TicTacToe();
-      case concentration:
-        return Concentration();
-      case simonSays:
-        return SimonSays();
-      default:
-        return null;
-    }
+  Map<String, Widget> widgetMap;
+
+  _HomePageState() {
+    widgetMap = Map();
+    widgetMap.putIfAbsent(ticTacToe, () => TicTacToe());
+    widgetMap.putIfAbsent(concentration, () => Concentration());
+    widgetMap.putIfAbsent(simonSays, () => SimonSays());
+    widgetMap.putIfAbsent(createdBy, () => SimonSays());
   }
 
   Column renderGameMenu() {
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
               child: RaisedButton(
                   shape: RoundedRectangleBorder(),
                   color: colors[i % colors.length],
-                  onPressed: () => Navi.goto(context, renderGame(games[i])),
+                  onPressed: () => Navi.goto(context, this.widgetMap[games[i]]),
                   child: Transform.rotate(
                     angle: -pi / 4,
                     child: Text(
@@ -78,10 +78,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey[900],
-        body: Container(
-            child: Transform.translate(
-                offset: Offset(-110, 150),
-                child:
-                    Transform.rotate(angle: pi / 4, child: renderGameMenu()))));
+        body: ZoomableWidget(
+          child: Container(
+              child: Transform.translate(
+                  offset: Offset(-110, 150),
+                  child: Transform.rotate(
+                      angle: pi / 4, child: renderGameMenu()))),
+        ));
   }
 }

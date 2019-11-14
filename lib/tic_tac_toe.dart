@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:playground/GameWrapper.dart';
+import 'package:playground/game_wrapper.dart';
 import 'dart:math';
 
 import 'package:playground/home_page.dart';

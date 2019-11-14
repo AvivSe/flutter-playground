@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:playground/GameWrapper.dart';
+import 'package:playground/game_wrapper.dart';
 
 import 'home_page.dart';
 
